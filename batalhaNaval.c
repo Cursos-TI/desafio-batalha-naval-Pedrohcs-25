@@ -27,10 +27,11 @@ int main() {
     // i - quantidade de navios
     // [2] - [0] posição inicial  - [1] posição final 
     // [2] - [0] posição  v - [1] posição  h
-    int navios [3][2][2] = {
+    int navios [4][2][2] = {
         {{2,2},{2,4}},
         {{4,2},{6,2}},
-        {{9,2},{9,8}}
+        {{9,9},{7,7}},
+        {{0,9},{2,7}}
     };
     
     // inserir navios
@@ -49,20 +50,35 @@ int main() {
         //printf("navios[%d][0][0] %d ",w, navios[w][0][0]);
         //printf("navios[%d][0][1] %d ",w, navios[w][0][1]);
         //calculo
-        int distanciaV, distanciaH, invertido = 1;
+        int distanciaV, distanciaH,diagonal =0, invertido = 1;
         distanciaV = navios[w][1][0] - navios[w][0][0];
         distanciaH = navios[w][1][1] - navios[w][0][1];
+        
+       
         if (distanciaH <0)
         {
             distanciaH = distanciaH * -1;
             invertido = -1;
-        }else if (distanciaV<0){
+        }
+        if (distanciaV<0){
             invertido = -1;
             distanciaV = distanciaV * -1;
         }
+        
+        if (distanciaH == distanciaV &&  distanciaV !=0)
+        {
+            diagonal=1;
+        }     
         int tMeio = (distanciaH > distanciaV) ? distanciaH : distanciaV;
         int meio[tMeio][2];
-        if (distanciaH > distanciaV && distanciaV ==0){
+        if(diagonal){
+            for (int d = 0; d < distanciaH; d++)
+            {   
+                int calculoVertical = navios[w][0][0] + ( d +1 )* invertido;
+                meio[d][0] =(calculoVertical > 0) ? calculoVertical : ( -1 * calculoVertical);
+                meio[d][1] = navios[w][0][1] + ( d +1 )* invertido;
+            }
+        }else if (distanciaH > distanciaV && distanciaV ==0){
             for (int d = 0; d < distanciaH; d++)
             {
                 meio[d][0] = (navios[w][0][0]);
@@ -118,8 +134,7 @@ int main() {
                 
             }
         }
-        
-        
+               
 
         w ++;
     }
