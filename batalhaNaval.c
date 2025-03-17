@@ -12,11 +12,11 @@ int main() {
     int tabuleiro[10][10] = {
         {0,0,0,0,0,0,0,0,0,0},
         {0,0,0,0,0,0,0,0,0,0},
-        {0,0,9,0,9,0,0,0,0,0},
         {0,0,0,0,0,0,0,0,0,0},
-        {0,0,8,0,0,0,0,0,0,0},
         {0,0,0,0,0,0,0,0,0,0},
-        {0,0,8,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,0,0},
         {0,0,0,0,0,0,0,0,0,0},
         {0,0,0,0,0,0,0,0,0,0},
         {0,0,0,0,0,0,0,0,0,0}
@@ -41,7 +41,11 @@ int main() {
         if ((navios[w][0][0] == 0 && navios[w][0][1] == 0)&&(navios[w][1][0] == 0 && navios[w][1][1] == 0)){
             break;
         }
-        
+        if ((navios[w][0][0] > 10 || navios[w][0][1] > 10)||(navios[w][1][0] > 10  || navios[w][1][1] > 10)){
+            printf ("Navio N%d não foi colocado pois passaria do limite do tabuleiro\n", (w+1));
+            break;
+        }
+
         //printf("navios[%d][0][0] %d ",w, navios[w][0][0]);
         //printf("navios[%d][0][1] %d ",w, navios[w][0][1]);
         //calculo
@@ -75,32 +79,47 @@ int main() {
             }
             
         }
-        
-        
-
-        ////////////////////
-        for (short int i = 0; i < 10; i++){
-            for (short int j = 0; j < 10; j++){
-              if ((navios[w][0][0] == i && navios[w][0][1] == j)|| (navios[w][1][0] == i && navios[w][1][1] == j)){
-                tabuleiro[i][j] = 3 ;
-                continue;
-              }else{
-                //int m = 0;
-                for (int m = 0; m < tMeio; m++){
-                    if (meio[m][0] == i && meio[m][1] == j)
-                    {
-                        tabuleiro[i][j] = 3 ;
-                        continue;
-                    }
+        //calculo para ver se bate
+        // vê se a posição do navio colide com a do anterior
+        if (w>0 && ((navios[w][0][0] == navios[w-1][0][0]&& navios[w][0][1] == navios[w-1][0][1])||(navios[w][1][0] == navios[w-1][1][0]&& navios[w][1][1] == navios[w-1][1][1]))){
+            break;
+        }else{
+            int sobreposicao = 0;
+            for (short int i = 0; i < 10; i++){
+                if (sobreposicao == 1)
+                {   
+                    printf ("Navio N%d não foi colocado pois sobreporia outro navio\n", (w+1));
+                    break;
                 }
                 
-              }
-              
+                for (short int j = 0; j < 10; j++){
+                    if ((navios[w][0][0] == i && navios[w][0][1] == j)|| (navios[w][1][0] == i && navios[w][1][1] == j)){
+                        if (tabuleiro[i][j] == 0){ 
+                            tabuleiro[i][j]= 3 ;
+                        }else{
+                            sobreposicao = 1;
+                            break;
+                        }
+                    continue;
+                    }else{
+                    //int m = 0;
+                    for (int m = 0; m < tMeio; m++){
+                        if (meio[m][0] == i && meio[m][1] == j)
+                        {
+                            tabuleiro[i][j] = 3 ;
+                            continue;
+                        }
+                    }
+                    
+                    }
+                    
+                }
+                
+                
             }
-            
-            
         }
-
+        
+        
 
         w ++;
     }
