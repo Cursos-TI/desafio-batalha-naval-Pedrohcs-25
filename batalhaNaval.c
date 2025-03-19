@@ -186,30 +186,20 @@ int main() {
             ataque_area[i][j][1] = cordenada_de_ataque[1] + modificador[1];// h - Horizontal
         }
     }
-    for (short int i = 0; i < 10; i++){
-        if (ataque_area[0][0][0] > i){
-            continue;
-        }
+
+    for (int v =0;v<3;v++){
+        for (int h =0;h<5;h++){
         
-        for (short int j = 0; j < 10; j++){
-            if ((ataque_area[2][4][0] < i) &&(ataque_area[2][4][1] < j)){// i =5 |  j = 7
-                break;
-            }
-            for (int v =0;v<3;v++){
-                for (int h =0;h<5;h++){
-                    if ((ataque_area[v][h][0] == i)&&(ataque_area[v][h][1] == j)){
-                        if ( epecias3x5[0][v][h] != 0){//cone
-                            tabuleiro[i][j] = epecias3x5[0][v][h];//cone
-                            //tabuleiro[i][j] = epecias3x5[1][v][h];//cruz
-                            //tabuleiro[i][j] = epecias3x5[2][v][h];//octaedro
-                        }
-                    }
-                }
+            if ( epecias3x5[0][v][h] != 0){//cone
+                tabuleiro[ataque_area[v][h][0]][ataque_area[v][h][1]] = epecias3x5[0][v][h];//cone
+                //tabuleiro[i][j] = epecias3x5[1][v][h];//cruz
+                //tabuleiro[i][j] = epecias3x5[2][v][h];//octaedro
             }
         }
-        
-        
     }
+        
+        
+    
    
     printf("\n\n");
     //exibir tabuleiro
