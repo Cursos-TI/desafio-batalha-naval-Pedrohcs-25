@@ -33,7 +33,22 @@ int main() {
         {{9,9},{7,7}},
         {{0,9},{2,7}}
     };
-    
+    int epecias3x5[3][3][5] = {
+        {
+            {0,0,5,0,0},
+            {0,5,5,5,0},
+            {5,5,5,5,5}
+        },
+        {
+            {0,0,5,0,0},
+            {0,5,5,5,0},
+            {0,0,5,0,0}
+        },{
+            {0,0,5,0,0},
+            {5,5,5,5,5},
+            {0,0,5,0,0}
+        },
+    };
     // inserir navios
     int w = 0;
     //int d =0;
@@ -138,6 +153,64 @@ int main() {
 
         w ++;
     }
+
+    
+
+
+    // Usar habilidade
+    int cordenada_de_ataque[2] = {6,5};
+    int ataque_area[3][5][2];
+    // centro [1][2]
+    // 
+    // [v-1,h-2], [v-1, h-1], [v-1,h], [v-1,h+1], [v-1,h+2] 
+    // [v  ,h-2], [v , h-1], [v  ,h], [v  ,h+1], [v  ,h+2]
+    // [v+1,h-2], [v+1, h-1], [v+1,h], [v+1,h+1], [v+1,h+2]
+    // 
+    int modificador[2];
+    for (int i =0;i<3;i++){
+        if (i == 0){
+            modificador[0]=-1;
+        }else if (i == 1){
+            modificador[0]=0;
+        }else{
+            modificador[0]=1;
+        }
+        
+        for (int j =0;j<5;j++){
+            if (j == 0){
+                modificador[1]=-2;
+            }else{
+                modificador[1]++;
+            }
+            ataque_area[i][j][0] = cordenada_de_ataque[0] + modificador[0];// v - Vertical
+            ataque_area[i][j][1] = cordenada_de_ataque[1] + modificador[1];// h - Horizontal
+        }
+    }
+    for (short int i = 0; i < 10; i++){
+        if (ataque_area[0][0][0] > i){
+            continue;
+        }
+        
+        for (short int j = 0; j < 10; j++){
+            if ((ataque_area[2][4][0] < i) &&(ataque_area[2][4][1] < j)){// i =5 |  j = 7
+                break;
+            }
+            for (int v =0;v<3;v++){
+                for (int h =0;h<5;h++){
+                    if ((ataque_area[v][h][0] == i)&&(ataque_area[v][h][1] == j)){
+                        if ( epecias3x5[0][v][h] != 0){//cone
+                            tabuleiro[i][j] = epecias3x5[0][v][h];//cone
+                            //tabuleiro[i][j] = epecias3x5[1][v][h];//cruz
+                            //tabuleiro[i][j] = epecias3x5[2][v][h];//octaedro
+                        }
+                    }
+                }
+            }
+        }
+        
+        
+    }
+   
     printf("\n\n");
     //exibir tabuleiro
     for (short int i = 0; i < 10; i++){
